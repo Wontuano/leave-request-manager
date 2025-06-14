@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LeaveRequestService, LeaveRequest } from '../services/leave-request.service';
+import { LeaveRequest } from '../models/leave-request';
+import { LeaveRequestService } from '../services/leave-request.service';
 
 @Component({
   standalone: true,

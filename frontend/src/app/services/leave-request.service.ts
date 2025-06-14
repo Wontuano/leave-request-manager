@@ -1,17 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface LeaveRequest {
-  id?: number;
-  firstName: string;
-  lastName: string;
-  leaveType: string;
-  startDate: string;
-  endDate: string;
-  reason: string;
-  status: string;
-}
+import { LeaveRequest } from '../models/leave-request';
 
 @Injectable({
   providedIn: 'root'
