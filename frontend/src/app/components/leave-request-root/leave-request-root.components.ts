@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { LeaveRequestFormComponent } from '../leave-request-form/leave-request-form.component';
 import { LeaveRequestTableComponent } from '../leave-request-table.component';
 import { NgIf } from '@angular/common';
+import { LeaveRequest } from '../../models/leave-request';
 
 @Component({
   standalone: true,
@@ -14,6 +15,7 @@ import { NgIf } from '@angular/common';
     <div class="modal-backdrop" *ngIf="showForm">
       <div class="modal">
         <app-leave-request-form 
+          [request]="selectedRequest"
           (formSubmitted)="onFormSubmitted()" 
           (close)="showForm = false">
         </app-leave-request-form>
@@ -21,7 +23,9 @@ import { NgIf } from '@angular/common';
     </div>
         
     <hr />
-    <app-leave-request-table></app-leave-request-table>
+    <app-leave-request-table
+      (edit)="onEditRequest($event)">
+    </app-leave-request-table>
   `,
   styles: [`
     .modal-backdrop {
@@ -46,9 +50,16 @@ import { NgIf } from '@angular/common';
   `]
 })
 export class LeaveRequestRootComponent {
+  selectedRequest: LeaveRequest | null = null;
   showForm = false;
 
   onFormSubmitted() {
     this.showForm = false;
+    this.selectedRequest = null;
+  }
+
+  onEditRequest(request: LeaveRequest) {
+    this.selectedRequest = request;
+    this.showForm = true;
   }
 }

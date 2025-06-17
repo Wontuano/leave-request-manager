@@ -4,6 +4,7 @@ import com.example.demo.model.LeaveRequest;
 import com.example.demo.repository.LeaveRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,24 @@ public class LeaveRequestController {
     @PostMapping
     public LeaveRequest createRequest(@RequestBody LeaveRequest leaveRequest) {
         return leaveRequestRepository.save(leaveRequest);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<LeaveRequest> updateLeaveRequest(@PathVariable Long id, @RequestBody LeaveRequest updatedRequest) {
+        Optional<LeaveRequest> existing = leaveRequestRepository.findById(id);
+        if (existing.isPresent()) {
+            LeaveRequest request = existing.get();
+            request.setFirstName(updatedRequest.getFirstName());
+            request.setLastName(updatedRequest.getLastName());
+            request.setLeaveType(updatedRequest.getLeaveType());
+            request.setStartDate(updatedRequest.getStartDate());
+            request.setEndDate(updatedRequest.getEndDate());
+            request.setStatus(updatedRequest.getStatus());
+            leaveRequestRepository.save(request);
+            return ResponseEntity.ok(request);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

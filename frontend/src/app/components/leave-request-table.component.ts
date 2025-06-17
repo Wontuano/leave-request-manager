@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LeaveRequest } from '../models/leave-request';
 import { LeaveRequestService } from '../services/leave-request.service';
@@ -30,6 +30,9 @@ import { LeaveRequestService } from '../services/leave-request.service';
           <td>{{ request.startDate }}</td>
           <td>{{ request.endDate }}</td>
           <td>{{ request.status }}</td>
+          <td>
+            <button (click)="editRequest(request)">Edit</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -47,6 +50,8 @@ import { LeaveRequestService } from '../services/leave-request.service';
   providers: [LeaveRequestService]
 })
 export class LeaveRequestTableComponent implements OnInit {
+  @Output() edit = new EventEmitter<LeaveRequest>();
+  
   leaveRequests: LeaveRequest[] = [];
 
   constructor(private leaveRequestService: LeaveRequestService) {}
@@ -56,5 +61,9 @@ export class LeaveRequestTableComponent implements OnInit {
         next: (data) => this.leaveRequests = data,
         error: (err) => console.error('Error fetching leave requests', err)
       });
+  }
+
+  editRequest(request: LeaveRequest) {
+    this.edit.emit(request);
   }
 }

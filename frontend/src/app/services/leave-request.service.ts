@@ -22,4 +22,9 @@ export class LeaveRequestService {
     return this.http.post<LeaveRequest>(this.apiUrl, request)
   }
 
+  // PUT a new leave request (updating an existing)
+  updateLeaveRequest(id: number, data: LeaveRequest): Observable<LeaveRequest> {
+    return this.http.put<LeaveRequest>(`${this.apiUrl}/${id}`, data);
+  }
+
 }
