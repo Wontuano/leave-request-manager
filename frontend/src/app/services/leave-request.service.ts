@@ -27,4 +27,8 @@ export class LeaveRequestService {
     return this.http.put<LeaveRequest>(`${this.apiUrl}/${id}`, data);
   }
 
+  deleteLeaveRequest(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
 }

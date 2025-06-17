@@ -31,7 +31,10 @@ import { LeaveRequestService } from '../services/leave-request.service';
           <td>{{ request.endDate }}</td>
           <td>{{ request.status }}</td>
           <td>
-            <button (click)="editRequest(request)">Edit</button>
+            <div class="button-row">
+              <button (click)="editRequest(request)">Edit</button>
+              <button (click)="deleteRequest(request.id!)">Delete</button>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -45,6 +48,10 @@ import { LeaveRequestService } from '../services/leave-request.service';
     th, td {
       padding: 8px;
       border: 1px solid black;
+    }
+    .button-row {
+      display: flex;
+      gap: 20px;
     }
   `],
   providers: [LeaveRequestService]
@@ -65,5 +72,19 @@ export class LeaveRequestTableComponent implements OnInit {
 
   editRequest(request: LeaveRequest) {
     this.edit.emit(request);
+  }
+
+  deleteRequest(id: number) {
+    if (confirm('Are you sure you want to delete this leave request?')) {
+      this.leaveRequestService.deleteLeaveRequest(id).subscribe({
+        next: () => {
+          this.leaveRequests = this.leaveRequests.filter(req => req.id !== id);
+        },
+        error: (err)=> {
+          console.error('Delete failed', err);
+          alert('Could not delete the request')
+        }
+      });
+    }
   }
 }

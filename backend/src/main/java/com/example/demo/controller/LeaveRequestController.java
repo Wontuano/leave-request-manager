@@ -17,24 +17,25 @@ public class LeaveRequestController {
     @Autowired
     private LeaveRequestRepository leaveRequestRepository;
 
-    // GET all leave requests
+    // Get all leave requests
     @GetMapping
     public List<LeaveRequest> getAllRequests() {
         return leaveRequestRepository.findAll();
     }
 
-    // GET a specific request by ID
+    // Get a specific request by ID
     @GetMapping("/{id}")
     public Optional<LeaveRequest> getRequestById(@PathVariable Long id) {
         return leaveRequestRepository.findById(id);
     }
 
-    // POST a new leave request
+    // Post a new leave request
     @PostMapping
     public LeaveRequest createRequest(@RequestBody LeaveRequest leaveRequest) {
         return leaveRequestRepository.save(leaveRequest);
     }
 
+    // Update an existing leave request
     @PutMapping("/{id}")
     public ResponseEntity<LeaveRequest> updateLeaveRequest(@PathVariable Long id, @RequestBody LeaveRequest updatedRequest) {
         Optional<LeaveRequest> existing = leaveRequestRepository.findById(id);
@@ -53,4 +54,15 @@ public class LeaveRequestController {
         }
     }
 
+    // Delete an existing leave request
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteLeaveRequest(@PathVariable Long id) {
+        if (leaveRequestRepository.existsById(id)) {
+            leaveRequestRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
