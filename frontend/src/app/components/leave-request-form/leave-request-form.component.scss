@@ -1,0 +1,21 @@
+form {
+    width: 300px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input, select, textarea {
+    width: 150%
+}
+
+form div {
+    margin-bottom: 20px;
+}
+
+.button-row {
+    display: flex;
+    gap: 20px;
+}
